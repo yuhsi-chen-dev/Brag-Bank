@@ -1,3 +1,4 @@
+import { Inject, Injectable } from '@nestjs/common';
 import type { AIOutput, AIOutputType, DateRange } from '@brag-bank/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 
@@ -23,8 +24,9 @@ const toOutput = (record: AiOutputRecord): AIOutput => ({
   createdAt: toDateString(record.createdAt)
 });
 
+@Injectable()
 export class OutputsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async create(payload: CreateOutputPayload): Promise<AIOutput> {
     const output = await this.prisma.aiOutput.create({

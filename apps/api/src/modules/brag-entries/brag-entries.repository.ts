@@ -1,3 +1,4 @@
+import { Inject, Injectable } from '@nestjs/common';
 import type { BragEntry, BragTag } from '@brag-bank/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 
@@ -23,8 +24,9 @@ const toBragEntry = (record: BragEntryRecord): BragEntry => ({
   evidenceLinks: (record.evidenceLinks as string[] | null) ?? undefined
 });
 
+@Injectable()
 export class BragEntriesRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async list(from?: string, to?: string) {
     const entries = await this.prisma.bragEntry.findMany({

@@ -112,6 +112,9 @@ npm run prisma:seed
 - Frontend consumes via TanStack Query and flags gaps quickly.
 - Changes to payloads should update shared types first.
 
+## Frontend Local API
+Set `NEXT_PUBLIC_API_URL` to point the frontend at the API, e.g. `http://localhost:4000`.
+
 ## Prompting Guidelines (Draft)
 - Resume bullets:
   - Start with strong verb

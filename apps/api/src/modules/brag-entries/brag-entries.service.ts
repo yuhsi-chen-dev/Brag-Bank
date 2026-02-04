@@ -1,8 +1,13 @@
+import { Inject, Injectable } from '@nestjs/common';
 import type { BragEntry } from '@brag-bank/shared';
 import { BragEntriesRepository } from './brag-entries.repository';
 
+@Injectable()
 export class BragEntriesService {
-  constructor(private readonly repository: BragEntriesRepository) {}
+  constructor(
+    @Inject(BragEntriesRepository)
+    private readonly repository: BragEntriesRepository
+  ) {}
 
   async list(from?: string, to?: string) {
     return this.repository.list(from, to);

@@ -1,26 +1,9 @@
-import type { AIOutput, BragEntry } from '@brag-bank/shared';
-import AppShell from '../components/AppShell';
+'use client';
 
-const entries: BragEntry[] = [
-  {
-    id: 'entry-1',
-    userId: 'user-1',
-    title: 'Improved checkout latency by 34%',
-    date: 'Jan 12, 2026',
-    summary:
-      'Refactored API cache strategy and removed blocking calls across 2 services.',
-    tags: ['Reliability', 'Cost', 'Performance']
-  },
-  {
-    id: 'entry-2',
-    userId: 'user-1',
-    title: 'Mentored 2 new hires to production readiness',
-    date: 'Dec 2, 2025',
-    summary:
-      'Built onboarding plan, weekly pairing sessions, and a quality checklist.',
-    tags: ['Leadership', 'Enablement']
-  }
-];
+import type { AIOutput, BragEntry } from '@brag-bank/shared';
+import { useQuery } from '@tanstack/react-query';
+import AppShell from '../components/AppShell';
+import { getBragEntries } from '../lib/endpoints';
 
 const outputs: AIOutput[] = [
   {
@@ -44,6 +27,11 @@ const outputs: AIOutput[] = [
 ];
 
 export default function HomePage() {
+  const { data: entries = [], isLoading } = useQuery<BragEntry[]>({
+    queryKey: ['brag-entries'],
+    queryFn: () => getBragEntries()
+  });
+
   return (
     <AppShell title="Home">
       <section className="hero">
@@ -62,7 +50,7 @@ export default function HomePage() {
       <section className="stats">
         <div className="card">
           <h3>Total entries</h3>
-          <p>38</p>
+          <p>{entries.length}</p>
         </div>
         <div className="card">
           <h3>Top tag</h3>
@@ -80,24 +68,28 @@ export default function HomePage() {
 
       <section>
         <h2 className="section-title">Recent entries</h2>
-        <div className="entry-list">
-          {entries.map((entry) => (
-            <div key={entry.id} className="card entry">
-              <div className="entry-header">
-                <strong>{entry.title}</strong>
-                <span className="muted">{entry.date}</span>
+        {isLoading ? (
+          <p className="muted">Loading entries…</p>
+        ) : (
+          <div className="entry-list">
+            {entries.map((entry) => (
+              <div key={entry.id} className="card entry">
+                <div className="entry-header">
+                  <strong>{entry.title}</strong>
+                  <span className="muted">{entry.date}</span>
+                </div>
+                <p className="muted">{entry.summary}</p>
+                <div className="tag-row">
+                  {entry.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <p className="muted">{entry.summary}</p>
-              <div className="tag-row">
-                {entry.tags.map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section>
