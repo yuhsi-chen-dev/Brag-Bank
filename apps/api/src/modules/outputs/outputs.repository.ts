@@ -1,0 +1,23 @@
+import type { AIOutput, AIOutputType, DateRange } from '@brag-bank/shared';
+
+export type CreateOutputPayload = {
+  userId: string;
+  dateRange: DateRange;
+  type: AIOutputType;
+};
+
+export class OutputsRepository {
+  create(payload: CreateOutputPayload): AIOutput {
+    return {
+      id: `output-${Date.now()}`,
+      userId: payload.userId,
+      dateRange: payload.dateRange,
+      type: payload.type,
+      content:
+        payload.type === 'resume'
+          ? 'Led a 34% checkout latency reduction by redesigning API caching and removing blocking calls.'
+          : 'Situation: Checkout latency spikes hurt conversion... Result: Achieved 34% improvement and stable p95.',
+      createdAt: new Date().toISOString().slice(0, 10)
+    };
+  }
+}
