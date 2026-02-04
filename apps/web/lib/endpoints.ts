@@ -12,3 +12,9 @@ export const getBragEntries = (from?: string, to?: string) => {
   const query = params.toString();
   return apiFetch<BragEntry[]>(`/brag-entries${query ? `?${query}` : ''}`);
 };
+
+export const createBragEntry = (payload: BragEntry) =>
+  apiFetch<BragEntry>('/brag-entries', {
+    method: 'POST',
+    body: payload
+  });

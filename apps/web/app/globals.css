@@ -256,6 +256,98 @@ a {
   color: var(--muted);
 }
 
+.tag-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(31, 122, 116, 0.08);
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tag-option input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
+.tag-option:has(input:checked) {
+  background: rgba(31, 122, 116, 0.2);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.date-picker {
+  position: relative;
+}
+
+.date-trigger {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.date-popover {
+  position: absolute;
+  z-index: 10;
+  margin-top: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.date-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.date-action {
+  border: 1px solid var(--border);
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.date-action.ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.rdp {
+  --rdp-cell-size: 36px;
+  --rdp-accent-color: var(--accent);
+  --rdp-background-color: rgba(31, 122, 116, 0.15);
+  --rdp-outline: 2px solid var(--accent);
+  --rdp-outline-selected: 2px solid var(--accent);
+  color: var(--ink);
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
 .kicker {
   text-transform: uppercase;
   letter-spacing: 1.6px;
