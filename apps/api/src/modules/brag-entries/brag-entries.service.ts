@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { BragEntry } from '@brag-bank/shared';
 import { BragEntriesRepository } from './brag-entries.repository';
+import { buildSummary } from './brag-entries.summary';
 
 @Injectable()
 export class BragEntriesService {
@@ -14,6 +15,7 @@ export class BragEntriesService {
   }
 
   async create(payload: BragEntry) {
-    return this.repository.create(payload);
+    const summary = buildSummary(payload);
+    return this.repository.create({ ...payload, summary });
   }
 }
