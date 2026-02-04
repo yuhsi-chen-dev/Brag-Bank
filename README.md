@@ -81,6 +81,8 @@ docker compose up -d
 ```
 MySQL will be available on host port `3307` (container `3306`). Redis is on host port `16379` (container `6379`).
 
+API environment variables live in `apps/api/.env.example`.
+
 ## API Endpoints (Draft)
 - POST /auth/request-otp
 - POST /auth/verify-otp
