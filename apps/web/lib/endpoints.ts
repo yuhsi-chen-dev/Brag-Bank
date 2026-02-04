@@ -1,4 +1,4 @@
-import type { BragEntry } from '@brag-bank/shared';
+import type { AIOutput, BragEntry, AIOutputType, DateRange } from '@brag-bank/shared';
 import { apiFetch } from './api';
 
 export const getBragEntries = (from?: string, to?: string) => {
@@ -15,6 +15,18 @@ export const getBragEntries = (from?: string, to?: string) => {
 
 export const createBragEntry = (payload: BragEntry) =>
   apiFetch<BragEntry>('/brag-entries', {
+    method: 'POST',
+    body: payload
+  });
+
+type CreateOutputRequest = {
+  userId: string;
+  dateRange: DateRange;
+  type: AIOutputType;
+};
+
+export const createOutput = (payload: CreateOutputRequest) =>
+  apiFetch<AIOutput>('/ai/outputs', {
     method: 'POST',
     body: payload
   });

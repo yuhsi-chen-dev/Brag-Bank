@@ -256,6 +256,14 @@ a {
   color: var(--muted);
 }
 
+.input[type='date'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] .input[type='date'] {
+  color-scheme: dark;
+}
+
 .tag-option {
   display: inline-flex;
   align-items: center;
