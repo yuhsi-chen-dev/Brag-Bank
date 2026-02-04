@@ -92,6 +92,12 @@ npx prisma db push
 ```
 For early development we use `db push` (no migrations). Switch to `migrate dev` once schema stabilizes.
 
+## Seed Data
+```bash
+cd apps/api
+npm run prisma:seed
+```
+
 ## API Endpoints (Draft)
 - POST /auth/request-otp
 - POST /auth/verify-otp
