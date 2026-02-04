@@ -1,48 +1,66 @@
-import type { BragEntry } from '@brag-bank/shared';
+import type { BragEntry, BragTag } from '@brag-bank/shared';
+import { PrismaService } from '../../prisma/prisma.service';
 
-const seedEntries: BragEntry[] = [
-  {
-    id: 'entry-1',
-    userId: 'user-1',
-    date: '2026-01-12',
-    title: 'Improved checkout latency by 34%',
-    summary:
-      'Refactored API cache strategy and removed blocking calls across 2 services.',
-    tags: ['Reliability', 'Cost', 'Performance']
-  },
-  {
-    id: 'entry-2',
-    userId: 'user-1',
-    date: '2025-12-02',
-    title: 'Mentored 2 new hires to production readiness',
-    summary:
-      'Built onboarding plan, weekly pairing sessions, and a quality checklist.',
-    tags: ['Leadership', 'Enablement']
-  }
-];
+const toDateString = (value: Date) => value.toISOString().slice(0, 10);
+
+type BragEntryRecord = NonNullable<
+  Awaited<ReturnType<PrismaService['bragEntry']['findFirst']>>
+>;
+
+const toBragEntry = (record: BragEntryRecord): BragEntry => ({
+  id: record.id,
+  userId: record.userId,
+  date: toDateString(record.date),
+  title: record.title,
+  summary: record.summary ?? undefined,
+  situation: record.situation ?? undefined,
+  task: record.task ?? undefined,
+  action: record.action ?? undefined,
+  result: record.result ?? undefined,
+  metrics: record.metrics ?? undefined,
+  stakeholders: record.stakeholders ?? undefined,
+  tags: ((record.tags as string[]) ?? []) as BragTag[],
+  evidenceLinks: (record.evidenceLinks as string[] | null) ?? undefined
+});
 
 export class BragEntriesRepository {
-  private entries = [...seedEntries];
+  constructor(private readonly prisma: PrismaService) {}
 
-  list(from?: string, to?: string) {
-    if (!from && !to) {
-      return this.entries;
-    }
-
-    return this.entries.filter((entry) => {
-      const date = entry.date;
-      if (from && date < from) {
-        return false;
-      }
-      if (to && date > to) {
-        return false;
-      }
-      return true;
+  async list(from?: string, to?: string) {
+    const entries = await this.prisma.bragEntry.findMany({
+      where: from || to
+        ? {
+            date: {
+              ...(from ? { gte: new Date(from) } : {}),
+              ...(to ? { lte: new Date(to) } : {})
+            }
+          }
+        : undefined,
+      orderBy: { date: 'desc' }
     });
+
+    return entries.map(toBragEntry);
   }
 
-  create(payload: BragEntry) {
-    this.entries = [payload, ...this.entries];
-    return payload;
+  async create(payload: BragEntry) {
+    const entry = await this.prisma.bragEntry.create({
+      data: {
+        id: payload.id,
+        userId: payload.userId,
+        date: new Date(payload.date),
+        title: payload.title,
+        summary: payload.summary,
+        situation: payload.situation,
+        task: payload.task,
+        action: payload.action,
+        result: payload.result,
+        metrics: payload.metrics,
+        stakeholders: payload.stakeholders,
+        tags: payload.tags,
+        evidenceLinks: payload.evidenceLinks
+      }
+    });
+
+    return toBragEntry(entry);
   }
 }

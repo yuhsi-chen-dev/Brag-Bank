@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  email     String      @unique
+  name      String?
+  role      String?
+  entries   BragEntry[]
+  outputs   AiOutput[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("users")
+}
+
+model BragEntry {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  date          DateTime
+  title         String
+  summary       String?
+  situation     String?
+  task          String?
+  action        String?
+  result        String?
+  metrics       String?
+  stakeholders  String?
+  tags          Json
+  evidenceLinks Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+  @@index([date])
+  @@map("brag_entries")
+}
+
+model AiOutput {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  dateRangeFrom DateTime
+  dateRangeTo   DateTime
+  type          String
+  content       String
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([dateRangeFrom, dateRangeTo])
+  @@map("ai_outputs")
+}

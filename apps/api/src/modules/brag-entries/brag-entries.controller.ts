@@ -7,12 +7,12 @@ export class BragEntriesController {
   constructor(private readonly bragEntriesService: BragEntriesService) {}
 
   @Get()
-  list(@Query() query: BragEntriesQuery) {
+  async list(@Query() query: BragEntriesQuery) {
     return this.bragEntriesService.list(query.from, query.to);
   }
 
   @Post()
-  create(@Body() payload: CreateBragEntryRequest) {
+  async create(@Body() payload: CreateBragEntryRequest) {
     return this.bragEntriesService.create(payload);
   }
 }

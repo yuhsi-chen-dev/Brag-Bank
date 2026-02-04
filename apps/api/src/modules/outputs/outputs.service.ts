@@ -5,7 +5,7 @@ import { CreateOutputRequest } from './outputs.dto';
 export class OutputsService {
   constructor(private readonly repository: OutputsRepository) {}
 
-  create(payload: CreateOutputRequest): AIOutput {
+  async create(payload: CreateOutputRequest): Promise<AIOutput> {
     return this.repository.create(payload);
   }
 }
