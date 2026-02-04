@@ -54,6 +54,7 @@ BragBank lets users log “wins” in seconds, then generate polished resume bul
 ## Tech Stack
 Frontend:
 - Next.js + React + TypeScript
+- TanStack Query (API data fetching + caching)
 - Tailwind CSS (or CSS Modules)
 
 Backend:
@@ -80,6 +81,12 @@ Infra/Dev:
 - GET /brag-entries?from=YYYY-MM-DD&to=YYYY-MM-DD
 - POST /ai/resume-bullets
 - POST /ai/star-stories
+
+## Frontend + Backend Collaboration (SA View)
+- Shared contracts live in `packages/shared` and are used by both API and UI.
+- Backend owns endpoint shape and stability.
+- Frontend consumes via TanStack Query and flags gaps quickly.
+- Changes to payloads should update shared types first.
 
 ## Prompting Guidelines (Draft)
 - Resume bullets:
