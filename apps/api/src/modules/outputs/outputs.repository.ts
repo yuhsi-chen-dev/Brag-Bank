@@ -44,4 +44,23 @@ export class OutputsRepository {
 
     return toOutput(output);
   }
+
+  async list(params: {
+    userId?: string;
+    from?: string;
+    to?: string;
+    type?: AIOutputType;
+  }): Promise<AIOutput[]> {
+    const outputs = await this.prisma.aiOutput.findMany({
+      where: {
+        ...(params.userId ? { userId: params.userId } : {}),
+        ...(params.type ? { type: params.type } : {}),
+        ...(params.from ? { dateRangeFrom: { gte: new Date(params.from) } } : {}),
+        ...(params.to ? { dateRangeTo: { lte: new Date(params.to) } } : {})
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return outputs.map(toOutput);
+  }
 }

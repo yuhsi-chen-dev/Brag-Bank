@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { AIOutput } from '@brag-bank/shared';
+import type { AIOutput, AIOutputType } from '@brag-bank/shared';
 import { OutputsRepository } from './outputs.repository';
 import { CreateOutputRequest } from './outputs.dto';
 
@@ -12,5 +12,14 @@ export class OutputsService {
 
   async create(payload: CreateOutputRequest): Promise<AIOutput> {
     return this.repository.create(payload);
+  }
+
+  async list(params: {
+    userId?: string;
+    from?: string;
+    to?: string;
+    type?: AIOutputType;
+  }): Promise<AIOutput[]> {
+    return this.repository.list(params);
   }
 }

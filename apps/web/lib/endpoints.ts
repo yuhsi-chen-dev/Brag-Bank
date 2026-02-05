@@ -30,3 +30,27 @@ export const createOutput = (payload: CreateOutputRequest) =>
     method: 'POST',
     body: payload
   });
+
+export const getOutputs = (params: {
+  userId?: string;
+  from?: string;
+  to?: string;
+  type?: AIOutputType;
+}) => {
+  const query = new URLSearchParams();
+  if (params.userId) {
+    query.set('userId', params.userId);
+  }
+  if (params.from) {
+    query.set('from', params.from);
+  }
+  if (params.to) {
+    query.set('to', params.to);
+  }
+  if (params.type) {
+    query.set('type', params.type);
+  }
+
+  const qs = query.toString();
+  return apiFetch<AIOutput[]>(`/ai/outputs${qs ? `?${qs}` : ''}`);
+};

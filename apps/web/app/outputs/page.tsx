@@ -1,16 +1,31 @@
 'use client';
 
 import type { AIOutput } from '@brag-bank/shared';
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import AppShell from '../../components/AppShell';
-import { createOutput } from '../../lib/endpoints';
+import { createOutput, getOutputs } from '../../lib/endpoints';
 
 const defaultUserId = '9b8d3d1f-7b4e-4c8f-9d5b-1c0d7e1f7b2a';
 
 export default function OutputsPage() {
-  const [outputs, setOutputs] = useState<AIOutput[]>([]);
   const [range, setRange] = useState({ from: '2025-08-04', to: '2026-02-04' });
+  const queryClient = useQueryClient();
+
+  const queryKey = useMemo(
+    () => ['ai-outputs', defaultUserId, range.from, range.to],
+    [range.from, range.to]
+  );
+
+  const { data: outputs = [], isLoading } = useQuery<AIOutput[]>({
+    queryKey,
+    queryFn: () =>
+      getOutputs({
+        userId: defaultUserId,
+        from: range.from,
+        to: range.to
+      })
+  });
 
   const resumeMutation = useMutation({
     mutationFn: () =>
@@ -19,8 +34,8 @@ export default function OutputsPage() {
         dateRange: range,
         type: 'resume'
       }),
-    onSuccess: (result) => {
-      setOutputs((prev) => [result, ...prev]);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
     }
   });
 
@@ -31,8 +46,8 @@ export default function OutputsPage() {
         dateRange: range,
         type: 'star'
       }),
-    onSuccess: (result) => {
-      setOutputs((prev) => [result, ...prev]);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
     }
   });
 
@@ -91,7 +106,9 @@ export default function OutputsPage() {
 
       <section>
         <h2 className="section-title">Latest outputs</h2>
-        {outputs.length === 0 ? (
+        {isLoading ? (
+          <p className="muted">Loading outputs…</p>
+        ) : outputs.length === 0 ? (
           <p className="muted">Generate your first output to see it here.</p>
         ) : (
           <div className="panel-grid">
