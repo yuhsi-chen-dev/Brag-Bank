@@ -3,6 +3,7 @@
 import type { BragEntry, BragTag } from '@brag-bank/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import AppShell from '../../components/AppShell';
 import DatePickerInput from '../../components/DatePickerInput';
 import { createBragEntry } from '../../lib/endpoints';
@@ -18,6 +19,11 @@ type FormState = {
   stakeholders: string;
   tags: BragTag[];
   evidenceLinks: string;
+};
+
+type FormErrors = {
+  title?: string;
+  date?: string;
 };
 
 const emptyForm: FormState = {
@@ -54,6 +60,7 @@ const parseList = (value: string) =>
 
 export default function LogPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [errors, setErrors] = useState<FormErrors>({});
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -61,6 +68,10 @@ export default function LogPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['brag-entries'] });
       setForm(emptyForm);
+      toast.success('Entry saved');
+    },
+    onError: () => {
+      toast.error('Failed to save entry');
     }
   });
 
@@ -89,6 +100,9 @@ export default function LogPage() {
 
   const handleChange = (key: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+    if (key === 'title' || key === 'date') {
+      setErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   };
 
   const handleToggleTag = (tag: BragTag) => {
@@ -102,6 +116,19 @@ export default function LogPage() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const nextErrors: FormErrors = {};
+    if (!form.title.trim()) {
+      nextErrors.title = 'Title is required.';
+    }
+    if (!form.date.trim()) {
+      nextErrors.date = 'Date is required.';
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
 
     const payload: BragEntry = {
       id: crypto.randomUUID(),
@@ -148,6 +175,12 @@ export default function LogPage() {
                   onChange={(event) => handleChange(field.key, event.target.value)}
                 />
               )}
+              {field.key === 'title' && errors.title ? (
+                <span className="form-error">{errors.title}</span>
+              ) : null}
+              {field.key === 'date' && errors.date ? (
+                <span className="form-error">{errors.date}</span>
+              ) : null}
             </label>
           ))}
           <div className="form-grid">

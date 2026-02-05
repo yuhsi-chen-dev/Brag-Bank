@@ -290,6 +290,12 @@ a {
   color: var(--ink);
 }
 
+.form-error {
+  color: #b85c38;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .date-picker {
   position: relative;
 }

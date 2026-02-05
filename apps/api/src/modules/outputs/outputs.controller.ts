@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import { OutputsService } from './outputs.service';
 import { CreateOutputRequest } from './outputs.dto';
 import { OutputsQuery } from './outputs.query';
+import { validateDateRange } from '../../common/date-range.guard';
 
 @Controller('ai/outputs')
 export class OutputsController {
@@ -12,6 +13,7 @@ export class OutputsController {
 
   @Get()
   async list(@Query() query: OutputsQuery) {
+    validateDateRange(query.from, query.to);
     return this.outputsService.list({
       userId: query.userId,
       from: query.from,

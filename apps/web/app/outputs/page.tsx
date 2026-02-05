@@ -3,6 +3,7 @@
 import type { AIOutput } from '@brag-bank/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import AppShell from '../../components/AppShell';
 import { createOutput, getOutputs } from '../../lib/endpoints';
 
@@ -36,6 +37,10 @@ export default function OutputsPage() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
+      toast.success('Resume bullets generated');
+    },
+    onError: () => {
+      toast.error('Failed to generate resume bullets');
     }
   });
 
@@ -48,6 +53,10 @@ export default function OutputsPage() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
+      toast.success('STAR stories generated');
+    },
+    onError: () => {
+      toast.error('Failed to generate STAR stories');
     }
   });
 
