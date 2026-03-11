@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #f7f3ee;
+  --ink: #1c1c1c;
+  --muted: #6b6b6b;
+  --accent: #1f7a74;
+  --accent-strong: #155c57;
+  --card: #fff8f1;
+  --border: #e7ded4;
+  --shadow: 0 18px 40px rgba(28, 28, 28, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --bg: #131211;
+  --ink: #f4f1ec;
+  --muted: #b7b2aa;
+  --accent: #5fbab0;
+  --accent-strong: #4ca097;
+  --card: #1c1b19;
+  --border: #2e2a26;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Source Sans 3", system-ui, -apple-system, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  padding: 32px 40px;
+}
+
+.sidebar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 24px;
+  height: calc(100vh - 64px);
+}
+
+.brand {
+  font-family: "Fraunces", serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav a {
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.nav a.active,
+.nav a:hover {
+  background: rgba(31, 122, 116, 0.12);
+  color: var(--ink);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero {
+  background: linear-gradient(120deg, #fff3e5, #f8efe6);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+:root[data-theme='dark'] .hero {
+  background: linear-gradient(120deg, #1f1d1a, #1a1917);
+}
+
+.hero h1 {
+  font-family: "Fraunces", serif;
+  font-size: 40px;
+  margin: 0 0 12px;
+}
+
+.hero p {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.button.primary:hover {
+  background: var(--accent-strong);
+}
+
+.button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.section-title {
+  font-family: "Fraunces", serif;
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.entry-list {
+  display: grid;
+  gap: 16px;
+}
+
+.entry {
+  display: grid;
+  gap: 8px;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(31, 122, 116, 0.12);
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.output-card {
+  display: grid;
+  gap: 12px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.design-page {
+  display: grid;
+  gap: 32px;
+  padding: 32px;
+}
+
+.design-frame {
+  border: 1px dashed var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  background: var(--card);
+}
+
+.design-frame h2 {
+  font-family: "Fraunces", serif;
+  margin-top: 0;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.input {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input[type='date'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] .input[type='date'] {
+  color-scheme: dark;
+}
+
+.tag-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(31, 122, 116, 0.08);
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tag-option input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
+.tag-option:has(input:checked) {
+  background: rgba(31, 122, 116, 0.2);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.form-error {
+  color: #b85c38;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.date-picker {
+  position: relative;
+}
+
+.date-trigger {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.date-popover {
+  position: absolute;
+  z-index: 10;
+  margin-top: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.date-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.date-action {
+  border: 1px solid var(--border);
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.date-action.ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.rdp {
+  --rdp-cell-size: 36px;
+  --rdp-accent-color: var(--accent);
+  --rdp-background-color: rgba(31, 122, 116, 0.15);
+  --rdp-outline: 2px solid var(--accent);
+  --rdp-outline-selected: 2px solid var(--accent);
+  color: var(--ink);
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+}
