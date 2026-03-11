@@ -44,6 +44,25 @@ export class BragEntriesRepository {
     return entries.map(toBragEntry);
   }
 
+  async listByUserAndRange(params: {
+    userId: string;
+    from: string;
+    to: string;
+  }) {
+    const entries = await this.prisma.bragEntry.findMany({
+      where: {
+        userId: params.userId,
+        date: {
+          gte: new Date(params.from),
+          lte: new Date(params.to)
+        }
+      },
+      orderBy: { date: 'desc' }
+    });
+
+    return entries.map(toBragEntry);
+  }
+
   async create(payload: BragEntry) {
     const entry = await this.prisma.bragEntry.create({
       data: {

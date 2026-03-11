@@ -6,6 +6,7 @@ export type CreateOutputPayload = {
   userId: string;
   dateRange: DateRange;
   type: AIOutputType;
+  content: string;
 };
 
 const toDateString = (value: Date) => value.toISOString().slice(0, 10);
@@ -35,10 +36,7 @@ export class OutputsRepository {
         dateRangeFrom: new Date(payload.dateRange.from),
         dateRangeTo: new Date(payload.dateRange.to),
         type: payload.type,
-        content:
-          payload.type === 'resume'
-            ? 'Led a 34% checkout latency reduction by redesigning API caching and removing blocking calls.'
-            : 'Situation: Checkout latency spikes hurt conversion... Result: Achieved 34% improvement and stable p95.'
+        content: payload.content
       }
     });
 

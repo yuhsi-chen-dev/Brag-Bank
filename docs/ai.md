@@ -17,3 +17,7 @@
 - Enforce max output length per entry.
 - Reject calls when no entries exist in range.
 - Use deterministic templates before AI for fallback.
+
+## OpenAI Configuration
+- `OPENAI_API_KEY` is required to generate outputs.
+- `OPENAI_MODEL` defaults to `gpt-4.1-mini`.

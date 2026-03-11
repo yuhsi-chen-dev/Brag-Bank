@@ -60,6 +60,8 @@ API env lives in `apps/api/.env.example`.
 Create `apps/api/.env` and set:
 ```
 DATABASE_URL="mysql://bragbank:bragbank@localhost:3307/bragbank"
+OPENAI_API_KEY=your_key_here
+OPENAI_MODEL=gpt-4.1-mini
 ```
 
 Web env lives in `apps/web/.env.example`.

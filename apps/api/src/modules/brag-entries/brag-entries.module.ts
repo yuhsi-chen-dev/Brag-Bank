@@ -5,6 +5,7 @@ import { BragEntriesService } from './brag-entries.service';
 
 @Module({
   controllers: [BragEntriesController],
-  providers: [BragEntriesRepository, BragEntriesService]
+  providers: [BragEntriesRepository, BragEntriesService],
+  exports: [BragEntriesRepository]
 })
 export class BragEntriesModule {}
